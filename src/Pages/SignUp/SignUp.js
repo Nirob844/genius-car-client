@@ -1,11 +1,14 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
+import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import img from '../../assets/images/login/login.svg';
 import { AuthContext } from '../../context/AuthProvider/AuthProvider';
 
 
 const SignUp = () => {
-    const { createUser } = useContext(AuthContext);
+
+    const [error, setError] = useState('');
+    const { createUser, updateUserProfile, verifyEmail } = useContext(AuthContext);
 
     const handleSignUp = event => {
         event.preventDefault();
@@ -18,8 +21,29 @@ const SignUp = () => {
             .then(result => {
                 const user = result.user;
                 console.log(user);
+                setError('');
+                form.reset();
+
+                handleEmailVerification();
+                toast.success('Please verify your email address.')
             })
-            .catch(err => console.error(err));
+            .catch(e => {
+                console.error(e);
+                setError(e.message);
+            });
+
+
+        const handleEmailVerification = () => {
+            verifyEmail()
+                .then(() => { })
+                .catch(error => console.error(error));
+        }
+
+        if (password.length < 6) {
+            setError('password must be 6 character');
+            return;
+        }
+
     }
     return (
         <div className="hero w-full my-20">
