@@ -16,10 +16,10 @@ const Login = () => {
     const googleProvider = new GoogleAuthProvider()
 
     const handleGoogleSingIn = () => {
-        console.log('count');
         providerLogin(googleProvider)
             .then(result => {
                 const user = result.user;
+                toast.success('login successfully');
                 console.log(user);
             })
             .catch(error => {
@@ -43,6 +43,7 @@ const Login = () => {
                 form.reset();
                 setError('');
                 if (user.emailVerified) {
+                    toast.success('login successfully');
                     Navigate('/');
                 }
                 else {
