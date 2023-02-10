@@ -31,7 +31,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/orders',
-                element: <Orders></Orders>
+                element: <PrivateRoutes><Orders></Orders></PrivateRoutes>
             },
         ]
     }
