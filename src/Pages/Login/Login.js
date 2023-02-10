@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { toast } from 'react-hot-toast';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import img from '../../assets/images/login/login.svg';
 import { AuthContext } from '../../context/AuthProvider/AuthProvider';
 import { FaGoogle } from 'react-icons/fa';
@@ -9,10 +9,13 @@ import { GoogleAuthProvider } from 'firebase/auth';
 
 const Login = () => {
 
-    const [error, setError] = useState('');
 
     const { signIn, setLoading, providerLogin, } = useContext(AuthContext);
+    const [error, setError] = useState('');
+    const location = useLocation();
+    const navigate = useNavigate();
 
+    const from = location.state?.from?.pathname || '/';
     const googleProvider = new GoogleAuthProvider()
 
     const handleGoogleSingIn = () => {
@@ -44,7 +47,7 @@ const Login = () => {
                 setError('');
                 if (user.emailVerified) {
                     toast.success('login successfully');
-                    Navigate('/');
+                    navigate(from, { replace: true });
                 }
                 else {
                     toast.error('Your email is not verified. Please verify your email address.')
